@@ -18,6 +18,7 @@ class QubitEnv:
         self.action_space = []
         for generator in [identity, sigma_x, sigma_y, sigma_z]:
             self.action_space.append(torch.linalg.matrix_exp(-1j * self.delta_t * torch.from_numpy(generator)))
+
         print(self.action_space)
         self.actions=[0,1,2,3]
         torch.manual_seed(seed)
@@ -71,6 +72,22 @@ class QubitEnv:
         # find Bloch sphere angles
         theta = 2.0 * torch.arccos(psi_new[0]).real
         phi = torch.angle(psi_new[1])
+        if not 0<=theta<np.pi:
+            if -np.pi<=theta<0:
+                theta=theta+np.pi
+            if np.pi<=theta<2*np.pi:
+                theta=theta-np.pi
+            else:
+                print("hää")
+
+        if not 0<=theta<np.pi:
+            if -np.pi<=theta<0:
+                theta=theta+np.pi
+            if np.pi<=theta<2*np.pi:
+                theta=theta-np.pi
+            else:
+                print("hää")
+
 
         return torch.tensor([theta, phi],dtype=torch.double)
 

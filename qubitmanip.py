@@ -111,6 +111,22 @@ class QubitEnv():
         theta = 2.0 * torch.arccos(psi_new[0]).real
         phi = torch.angle(psi_new[1])
 
+        if not 0 <= theta < np.pi:
+            if -np.pi <= theta < 0:
+                theta = theta + np.pi
+            elif np.pi <= theta < 2 * np.pi:
+                theta = theta - np.pi
+            else:
+                print("hää")
+
+        if not 0 <= phi < 2*np.pi:
+            if -2*np.pi <= phi < 0:
+                phi = phi + 2*np.pi
+            elif 2*np.pi <= phi < 4 * np.pi:
+                phi = phi - 2*np.pi
+            else:
+                print("hää")
+
         return torch.tensor([theta, phi], dtype=torch.double)
 
 
