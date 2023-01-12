@@ -49,7 +49,6 @@ class QubitEnv():
         for generator in [Id, sigma_x, sigma_y, sigma_z]:
             self.action_space.append(expm(-1j * delta_t * generator))
 
-        self.action_space[0]=    torc
 
         self.actions = np.array([0, 1, 2, 3])
 
