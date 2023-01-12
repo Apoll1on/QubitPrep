@@ -67,8 +67,6 @@ class QubitEnv():
         self.target_state = torch.tensor([1, 0], dtype=torch.cdouble)
         self.target_psi = self.state_to_psi(self.target_state)
 
-        torch.manual_seed(seed)
-
     def step(self, action, nstep):
         self.psi = torch.matmul(self.action_space[action], self.psi)
         self.state = self.psi_to_state(self.psi)
@@ -143,7 +141,7 @@ class DQN(nn.Module):
     def forward(self, x):
         x = nn.functional.relu(self.layer1(x))
         x = nn.functional.relu(self.layer2(x))
-        return nn.functional.relu(self.layer3(x))
+        return self.layer3(x)
 
 
 # BATCH_SIZE is the number of transitions sampled from the replay buffer
@@ -154,12 +152,12 @@ class DQN(nn.Module):
 # TAU is the update rate of the target network
 # LR is the learning rate of the AdamW optimizer
 BATCH_SIZE = 128
-GAMMA = 0.99
+GAMMA = 0.9
 EPS_START = 0.9
 EPS_END = 0.05
 EPS_DECAY = 750
 TAU = 0.005
-LR = 1e-3
+LR = 1e-4
 device = "cpu"
 
 env = QubitEnv(0, 50)
